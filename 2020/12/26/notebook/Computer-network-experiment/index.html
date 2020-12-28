@@ -184,7 +184,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      54
+      55
        分钟
     </span>
   
@@ -242,7 +242,7 @@
 <li>若首选DNS 服务器上没有相关信息，就不能直接返回域名的IP 地址，这时候，首选DNS 服务器就会去询问根DNS服务器（所有的 DNS 服务器都知道全球的 13 台DNS根服务器在哪里），根服务器可能不知道这个具体的 www.baidu.com 的IP地址，但是它知道一级域 com 的DNS服务器的IP（也就是说根服务器只负责维护所有的一级域，所以也就几百条数据在这里，虽然数据量少，但是它接受来自全球的请求，所以负载也很大）</li>
 <li>根服务器将 com 的DNS服务器的IP地址返回给首选 DNS 服务器</li>
 <li>首选DNS服务器再去请求 “com” DNS服务器：“你知道 www.baidu.com 的IP吗”，但是com DNS服务器也不知道 www.baidu.com 的IP，但是com 的DNS服务器知道 baidu.com 的IP</li>
-<li>“comDNS” 服务器将这个信息返回给首选 DNS 服务器</li>
+<li>“com” 的DNS服务器将这个信息返回给首选 DNS 服务器</li>
 <li>首选DNS服务器再去请求 “baidu.com” DNS服务器，这时候 baidu.com 服务器当然就会知道 www.baidu.com的IP地址</li>
 <li>“baidu.com”DNS服务器将这个信息返回给首选DNS 服务器</li>
 <li>首选DNS服务器将获取到的 www.baidu.com 的IP返回给客户机</li>
@@ -278,14 +278,14 @@
 <tr>
 <td style="text-align:center">3</td>
 <td style="text-align:center">默认DNS服务器</td>
-<td style="text-align:center">com的DNS服务器</td>
+<td style="text-align:center">com 的DNS服务器</td>
 <td style="text-align:center">www.baidu.com</td>
-<td style="text-align:center">baidu.com的DNS服务器的IP</td>
+<td style="text-align:center">baidu.com 的DNS服务器的IP</td>
 </tr>
 <tr>
 <td style="text-align:center">4</td>
 <td style="text-align:center">默认DNS服务器</td>
-<td style="text-align:center">baidu的DNS服务器</td>
+<td style="text-align:center">baidu.com 的DNS服务器</td>
 <td style="text-align:center">www.baidu.com</td>
 <td style="text-align:center">www.baidu.com的IP</td>
 </tr>
@@ -354,7 +354,7 @@
 </tr>
 <tr>
 <td style="text-align:center">2</td>
-<td style="text-align:center">据链路层</td>
+<td style="text-align:center">数据链路层</td>
 <td style="text-align:center">mac</td>
 </tr>
 <tr>
@@ -374,7 +374,7 @@
 <li>数据包信息到达交换机</li>
 <li>交换机根据数据包中封装的目的主机的MAC地址信息查找MAC地址表，同时根据源主机MAC地址信息更新自己的MAC地址表<ul>
 <li>如果表中存在该目的主机的MAC地址，则从其对应的端口将数据包发送出去</li>
-<li>如果表中不存在该目的主机的MAC地址，则将该数据包被<font color=red>泛<br>洪</font>到所有端口</li>
+<li>如果表中不存在该目的主机的MAC地址，则将该数据包被<font color=red>泛洪</font>到所有端口</li>
 </ul>
 </li>
 <li>目的主机PC2接收到数据包后，回复响应数据包给PC1，该过程与PC1发送数据包给PC2类似，但此时，PC2是源主机，PC1是目的主机</li>
