@@ -1280,7 +1280,7 @@
 <h2 id="虚拟专用网络-VPN-和网络地址转换-NAT"><a href="#虚拟专用网络-VPN-和网络地址转换-NAT" class="headerlink" title="虚拟专用网络(VPN)和网络地址转换(NAT)"></a>虚拟专用网络(VPN)和网络地址转换(NAT)</h2><p>IP 地址中有一部分被指定为专有地址。当使用的是专有地址时，说明此地址并非是互联网上的地址，而是本地局域网(专用网)内的地址</p>
 <ul>
 <li><code>10.0.0.0</code> 至 <code>10.255.255.255</code></li>
-<li><code>172.16.0.0</code> 至 <code>172.31.0.0</code></li>
+<li><code>172.16.0.0</code> 至 <code>172.31.255.255</code></li>
 <li><code>192.168.0.0</code> 至 <code>192.168.255.255</code></li>
 </ul>
 <h3 id="VPN"><a href="#VPN" class="headerlink" title="VPN"></a>VPN</h3><p>由于这些地址是专有地址，无法直接在互联网上访问到，所以可以使用 VPN 技术来实现内网的访问。VPN的数据在互联网段是加密数据，所以效果上和真正的专用网一样。</p>
@@ -1492,7 +1492,7 @@
 </li>
 </ul>
 <h2 id="TCP-可靠传输的实现"><a href="#TCP-可靠传输的实现" class="headerlink" title="TCP 可靠传输的实现"></a>TCP 可靠传输的实现</h2><h3 id="以字节为单位的滑动窗口"><a href="#以字节为单位的滑动窗口" class="headerlink" title="以字节为单位的滑动窗口"></a>以字节为单位的滑动窗口</h3><p><img src="/image/notebook/Computer-network/14.png" srcset="/img/loading.gif" alt="TCP窗口"></p>
-<p>TCP 的滑动窗口是以字节为单位的，滑动窗口内的所有数据包会一次性发送出去，窗口内的数据表示已经发送但是未被确认，。假定主机 A 收到的来自主机 B 的确认包的 ACK 为 36，那么滑动窗口将会前移至 36</p>
+<p>TCP 的滑动窗口是以字节为单位的，滑动窗口内的所有数据包会一次性发送出去，窗口内的数据表示已经发送但是未被确认。假定主机 A 收到的来自主机 B 的确认包的 ACK 为 36，那么滑动窗口将会前移至 36</p>
 <h3 id="超时重传时间的选择"><a href="#超时重传时间的选择" class="headerlink" title="超时重传时间的选择"></a>超时重传时间的选择</h3><p>基于 <a href="#往返时间-RTT">RTT</a>，定义一个值 <script type="math/tex">RTT_S</script>，此值基于新的 RTT 不断更新，更新公式如下：</p>
 <script type="math/tex; mode=display">RTT_S = (1 - \alpha) \times (RTT_S) + \alpha \times RTT</script><p>通常 $\alpha = 0.125$</p>
 <p>所以定义超时重传时间</p>
