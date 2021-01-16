@@ -174,7 +174,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3k 字
+      6k 字
     </span>
   
 
@@ -184,7 +184,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      35
+      77
        分钟
     </span>
   
@@ -275,7 +275,7 @@
 <h3 id="句型和句子"><a href="#句型和句子" class="headerlink" title="句型和句子"></a>句型和句子</h3><ul>
 <li>如果 $S \Rightarrow^* \alpha, \alpha \in (V_T \cup V_N)^*$ 则称 $\alpha$ 是语法 $G$ 的一个句型</li>
 <li>一个句型中既可以包含终结符，也可以包含非终结符，也可以是空串</li>
-<li>如果 $S \Rightarrow^<em> w, w \in V_T^</em>$ 则称 $w$ 是 $G$ 的一个句子</li>
+<li>如果 $S \Rightarrow^* w, w \in V_T^*$ 则称 $w$ 是 $G$ 的一个句子</li>
 <li>句子是不包含任何非终结符的句型</li>
 <li>由文法推导出的所有句子构成的集合称为：文法 $G$ 生成的语言，记为 $L(G)$，即</li>
 </ul>
@@ -494,7 +494,669 @@ A' \rightarrow abA' | \varepsilon
 \begin{cases}
 S \rightarrow aS' \\
 S' \rightarrow Ad|Be
-\end{cases}</script><h2 id="LL-1-文法"><a href="#LL-1-文法" class="headerlink" title="LL(1) 文法"></a>LL(1) 文法</h2>
+\end{cases}</script><h2 id="LL-1-文法"><a href="#LL-1-文法" class="headerlink" title="LL(1) 文法"></a>LL(1) 文法</h2><h3 id="FIRST-集"><a href="#FIRST-集" class="headerlink" title="FIRST 集"></a>FIRST 集</h3><p>$FIRST(A)$ 集表示非终结符 $A$ 能够推导出的所有等式的第一个终结符的集合</p>
+<script type="math/tex; mode=display">FIRST(\alpha) = \{ a | \alpha \Rightarrow a \beta, a \in V_T ， \alpha, \beta \in V^* \}</script><p>这条等式可以用下面三个原则来求算</p>
+<p>对于一个产生式 $A \rightarrow B$而言</p>
+<ul>
+<li>若 $B$ 的第一个符号是终结符，则将此终结符加入到 $FIRST(A)$ 中</li>
+<li>若 $B$ 的第一个符号是非终结符，则将此非终结符的 $FIRST$ 中除了 $\varepsilon$ 的加入到 $FIRST(A)$ 中</li>
+<li>若 $B$ 的第一个符号是非终结符，它的 $FIRST$ 集中含有 $\varepsilon$ 则将下一个符号也进行这三条规则的判断，如果没有，下一个字符了，则将 $\varepsilon$ 加入到 $FIRST(A)$ 中</li>
+</ul>
+<h3 id="FOLLOW-集"><a href="#FOLLOW-集" class="headerlink" title="FOLLOW 集"></a>FOLLOW 集</h3><p>$FOLLOW(A)$ 集表示非终结符 $A$ 后可以跟随哪些终结符</p>
+<script type="math/tex; mode=display">FOLLOW(A) = \{ a | S \Rightarrow^* \dots A a \dots，a \in V_T \}</script><script type="math/tex; mode=display">若 A \Rightarrow^* \dots A，则 \# \in FOLLOW(A)</script><p>这两条等式可以用下面三个原则来求算</p>
+<ul>
+<li>对于文法开始符号 $S$，则 <script type="math/tex">\# \in FOLLOW(S)</script></li>
+<li>若存在类似 $B \rightarrow \alpha A \beta$ 的表达式，则 <script type="math/tex">FIRST(\beta) - \{\varepsilon\} \subseteq FOLLOW(A)</script></li>
+<li>若存在类似 $B \rightarrow \alpha A$ 或者 $B \rightarrow \alpha A \beta 且 \beta \Rightarrow^* \varepsilon$，则 <script type="math/tex">FOLLOW(B) \subseteq FOLLOW(A)</script></li>
+</ul>
+<h3 id="SELECT-集"><a href="#SELECT-集" class="headerlink" title="SELECT 集"></a>SELECT 集</h3><p>表示使用某个产生式的选择符号</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+SELECT(A \rightarrow \alpha) = (FIRST(\alpha) - \{\varepsilon\}) \cup FOLLOW(A)，\alpha \Rightarrow^* \varepsilon \\
+SELECT(A \rightarrow \alpha) = FIRST(\alpha)，\alpha \not\Rightarrow^* \varepsilon
+\end{cases}</script><p>同时满足</p>
+<script type="math/tex; mode=display">SELECT(A \rightarrow \alpha) \cap SELECT(A \rightarrow \beta) = \varnothing</script><h3 id="LL-1"><a href="#LL-1" class="headerlink" title="LL(1)"></a>LL(1)</h3><h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><p>满足 LL(1) 的文法有下面三个条件：</p>
+<p>若文法存在语句</p>
+<script type="math/tex; mode=display">A \rightarrow \alpha | \beta</script><p>则</p>
+<ul>
+<li>不存在终结 $a$ 使得 $\alpha$ 和 $\beta$ 都能推导出以 $a$ 开头的串，即 $FIRST(\alpha) \cap FIRST(\beta) = \varnothing$</li>
+<li>$\alpha$ 和 $\beta$ 至多有一个能推导出 $\varepsilon$</li>
+<li>满足下面的等式</li>
+</ul>
+<script type="math/tex; mode=display">
+\begin{cases}
+FIRST(\alpha) \cap FOLLOW(A) = \varnothing, \beta \Rightarrow^* \varepsilon \\
+FIRST(\beta) \cap FOLLOW(A) = \varnothing, \alpha \Rightarrow^* \varepsilon
+\end{cases}</script><h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><script type="math/tex; mode=display">对于所有的 A \rightarrow \alpha | \beta</script><p>若满足</p>
+<script type="math/tex; mode=display">SELECT(A \rightarrow \alpha) \cap SELECT(A \rightarrow \beta) = \varnothing</script><p>则为 LL(1)</p>
+<h3 id="非递归的预测分析法-表驱动的预测分析"><a href="#非递归的预测分析法-表驱动的预测分析" class="headerlink" title="非递归的预测分析法(表驱动的预测分析)"></a>非递归的预测分析法(表驱动的预测分析)</h3><p>首先需要根据 $SELECT$ 集来构建一个分析表。通过表的信息实现语法分析</p>
+<h3 id="LL-1-文法分析示例"><a href="#LL-1-文法分析示例" class="headerlink" title="LL(1) 文法分析示例"></a>LL(1) 文法分析示例</h3><p>以下面的表达式文法为例</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+E \rightarrow E + T | T \\
+T \rightarrow T * F | F \\
+F \rightarrow i | (E)
+\end{cases}</script><h4 id="消除左递归-1"><a href="#消除左递归-1" class="headerlink" title="消除左递归"></a>消除左递归</h4><p>首先，消除左递归，易得，前两个式子均为左递归<br>得到</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+E \rightarrow TE' \\
+E' \rightarrow +TE' | \varepsilon \\
+T \rightarrow FT' \\
+T' \rightarrow *FT' | \varepsilon \\
+F \rightarrow i | (E)
+\end{cases}</script><h4 id="求出-FIRST"><a href="#求出-FIRST" class="headerlink" title="求出 FIRST"></a>求出 FIRST</h4><p>得到各个符号的 FIRST 集：</p>
+<p>首先根据2、4、5式得到</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+FIRST(E') = \{+, \varepsilon\} \\
+FIRST(T') = \{*, \varepsilon\} \\
+FIRST(F) = \{i, (\}
+\end{cases}</script><p>然后根据 FIRST 集的求出剩下的 FIRST 集</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+FIRST(E) = \{i, ( \} \\
+FIRST(T) = \{i, ( \}
+\end{cases}</script><h4 id="求出-FOLLOW-集"><a href="#求出-FOLLOW-集" class="headerlink" title="求出 FOLLOW 集"></a>求出 FOLLOW 集</h4><p>然后再求出 FOLLOW 集</p>
+<p>首先</p>
+<script type="math/tex; mode=display">\# \in FOLLOW(E)</script><p>然后根据第一个等式得到</p>
+<script type="math/tex; mode=display">FIRST(E') - \varepsilon \subseteq FOLLOW(T) \Rightarrow FOLLOW(T) = \{+\}</script><script type="math/tex; mode=display">FOLLOW(E) \subseteq FOLLOW(E') \Rightarrow FOLLOW(E') = \{\#\}</script><p>然后继续重复做，直到没有 FOLLOW 集发生更新为止，最终得到</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+FOLLOW(E) = \{ \#, ) \} \\
+FOLLOW(E') = \{ \#, ) \} \\
+FOLLOW(T) = \{ \#, +, )\} \\
+FOLLOW(T') = \{ \#, +, )\} \\
+FOLLOW(F) = \{ \#, +, ), *\}
+\end{cases}</script><h4 id="求出-SELECT-集"><a href="#求出-SELECT-集" class="headerlink" title="求出 SELECT 集"></a>求出 SELECT 集</h4><p>再得到 SELECT 集</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+SELECT(E \rightarrow TE') = FIRST(TE') = FIRST(T) = \{i, ( \} \\
+SELECT(E' \rightarrow +TE') = FIRST(+TE') = FIRST(+) = \{+\} \\
+SELECT(E' \rightarrow \varepsilon) = (FIRST(\varepsilon) - \{\varepsilon \}) \cup FOLLOW(E') = \{ \#, ) \} \\
+SELECT(T \rightarrow FT') = FIRST(FT') = FIRST(F) = \{i, (\} \\
+SELECT(T' \rightarrow * FT') = FIRST(*FT') = FIRST(*) = \{*\} \\
+SELECT(T' \rightarrow \varepsilon) = (FIRST(\varepsilon) - \{\varepsilon \}) \cup FOLLOW(T') = \{ \#, +, )\} \\
+SELECT(F \rightarrow i) = FIRST(i) = \{ i \} \\
+SELECT(F \rightarrow (E)) = FIRST((E)) = FIRST(() = \{ ( \} \\
+\end{cases}</script><p>此时，判断是否为 LL(1) 文法</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+SELECT(E' \rightarrow +TE') \cup SELECT(E' \rightarrow \varepsilon) = \varnothing \\
+SELECT(T' \rightarrow * FT') \cup SELECT(T' \rightarrow \varepsilon) = \varnothing \\
+SELECT(F \rightarrow i) \cup SELECT(F \rightarrow (E)) = \varnothing
+\end{cases}</script><p>所以是 LL(1)文法</p>
+<h4 id="求出分析表"><a href="#求出分析表" class="headerlink" title="求出分析表"></a>求出分析表</h4><p>根据 SELECT 得出下表</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">i</th>
+<th style="text-align:center">+</th>
+<th style="text-align:center">*</th>
+<th style="text-align:center">(</th>
+<th style="text-align:center">)</th>
+<th style="text-align:center">#</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">E</td>
+<td style="text-align:center">$\rightarrow TE’$</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">$\rightarrow TE’$</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">E’</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">$\rightarrow +TE’$</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">$\rightarrow \varepsilon$</td>
+<td style="text-align:center">$\rightarrow \varepsilon$</td>
+</tr>
+<tr>
+<td style="text-align:center">T</td>
+<td style="text-align:center">$\rightarrow FT’$</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">$\rightarrow FT’$</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">T’</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">$\rightarrow \varepsilon$</td>
+<td style="text-align:center">$\rightarrow *FT’$</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">$\rightarrow \varepsilon$</td>
+<td style="text-align:center">$\rightarrow \varepsilon$</td>
+</tr>
+<tr>
+<td style="text-align:center">F</td>
+<td style="text-align:center">$\rightarrow i$</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">$\rightarrow (E)$</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="分析输入串"><a href="#分析输入串" class="headerlink" title="分析输入串"></a>分析输入串</h4><p>采用三列分析法来分析，使用 <code>#</code> 表示尾部，假设输入的串为 <code>i+i*i</code></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">栈</th>
+<th style="text-align:center">剩余输入</th>
+<th style="text-align:center">输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>E#</code></td>
+<td style="text-align:center"><code>i+i*i#</code></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>TE&#39;#</code></td>
+<td style="text-align:center"><code>i+i*i#</code></td>
+<td style="text-align:center">匹配了表中的 $\rightarrow TE’$</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>FT&#39;E&#39;#</code></td>
+<td style="text-align:center"><code>i+i*i#</code></td>
+<td style="text-align:center">$\rightarrow FT’$</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>iT&#39;E&#39;#</code></td>
+<td style="text-align:center"><code>i+i*i#</code></td>
+<td style="text-align:center">$\rightarrow i$</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>T&#39;E&#39;#</code></td>
+<td style="text-align:center"><code>+i*i#</code></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>E&#39;#</code></td>
+<td style="text-align:center"><code>+i*i#</code></td>
+<td style="text-align:center">$\rightarrow \varepsilon$</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>+TE&#39;#</code></td>
+<td style="text-align:center"><code>+i*i#</code></td>
+<td style="text-align:center">$\rightarrow +TE’$</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>TE&#39;#</code></td>
+<td style="text-align:center"><code>i*i#</code></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>FT&#39;E&#39;#</code></td>
+<td style="text-align:center"><code>i*i#</code></td>
+<td style="text-align:center">$\rightarrow FT’$</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>iT&#39;E&#39;#</code></td>
+<td style="text-align:center"><code>i*i#</code></td>
+<td style="text-align:center">$\rightarrow i$</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>T&#39;E&#39; #</code></td>
+<td style="text-align:center"><code>*i#</code></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>*FT&#39;E&#39;#</code></td>
+<td style="text-align:center"><code>*i#</code></td>
+<td style="text-align:center">$\rightarrow *FT’$</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>FT&#39;E&#39;#</code></td>
+<td style="text-align:center"><code>i#</code></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>iT&#39;E&#39;#</code></td>
+<td style="text-align:center"><code>i#</code></td>
+<td style="text-align:center">$\rightarrow i$</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>T&#39;E&#39;#</code></td>
+<td style="text-align:center"><code>#</code></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>E&#39;#</code></td>
+<td style="text-align:center"><code>#</code></td>
+<td style="text-align:center">$\rightarrow \varepsilon$</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>#</code></td>
+<td style="text-align:center"><code>#</code></td>
+<td style="text-align:center">$\rightarrow \varepsilon$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>匹配成功</p>
+<h2 id="LL-1-分析中的出错处理"><a href="#LL-1-分析中的出错处理" class="headerlink" title="LL(1) 分析中的出错处理"></a>LL(1) 分析中的出错处理</h2><p>暂略</p>
+<h1 id="自底向上优先分析"><a href="#自底向上优先分析" class="headerlink" title="自底向上优先分析"></a>自底向上优先分析</h1><h2 id="自底向下的分析思想"><a href="#自底向下的分析思想" class="headerlink" title="自底向下的分析思想"></a>自底向下的分析思想</h2><p>从分析树的底部(叶节点)向顶部(根节点)方向构造分析树，可以看成是将输入串w归约为文法开始符号S的过程，自底向上的语法分析采用最左归约方式（反向构造最右推导）</p>
+<h1 id="LR-0-和-SLR-1-分析法"><a href="#LR-0-和-SLR-1-分析法" class="headerlink" title="LR(0) 和 SLR(1) 分析法"></a>LR(0) 和 SLR(1) 分析法</h1><ul>
+<li>L: 对输入进行从左到右的扫描</li>
+<li>R: 反向构造出一个最右推导序列</li>
+</ul>
+<p><strong><font color=red>由于 SLR(1) 的操作和 LR(0) 分析法相似，且兼容，所以这里直接写 SLR(1) 的操作过程，LR(0) 文法也可以直接用此方法，得到的结果完全相同</font></strong></p>
+<p>以此文法为例</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+S \rightarrow L*L | L \\
+L \rightarrow LB | B \\
+B \rightarrow 0 | 1
+\end{cases}</script><h2 id="构造分析表"><a href="#构造分析表" class="headerlink" title="构造分析表"></a>构造分析表</h2><h3 id="将所有的或运算式子转换为多个式子"><a href="#将所有的或运算式子转换为多个式子" class="headerlink" title="将所有的或运算式子转换为多个式子"></a>将所有的或运算式子转换为多个式子</h3><p>得到</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+S \rightarrow L*L \\
+S \rightarrow L \\
+L \rightarrow LB \\
+L \rightarrow B \\
+B \rightarrow 0 \\
+B \rightarrow 1
+\end{cases}</script><h3 id="合并相同开始符号"><a href="#合并相同开始符号" class="headerlink" title="合并相同开始符号"></a>合并相同开始符号</h3><p>LR分析法不适用于有多个开始符号的产生式，所以应当对上面的产生式进行处理得到</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+ 0) S' \rightarrow S \\
+ 1) S \rightarrow L*L \\
+ 2) S \rightarrow L \\
+ 3) L \rightarrow LB \\
+ 4) L \rightarrow B \\
+ 5) B \rightarrow 0 \\
+ 6) B \rightarrow 1
+\end{cases}</script><p><em>每行开头的为编号，后续通过编号来指代产生式</em></p>
+<h3 id="建立状态"><a href="#建立状态" class="headerlink" title="建立状态"></a>建立状态</h3><p>对于一个状态，首先，判断<code>.</code>后面是否为非终结符号。如果是，那我们就得找所有由此非终结符推出的产生式，并将它们添加进入此状态里。循环做即可。</p>
+<p><em>使用 <code>.</code> 表示当前匹配到的位置</em></p>
+<p>首先建立初状态，将第一个表达式加入初状态 State 0</p>
+<h4 id="State-0"><a href="#State-0" class="headerlink" title="State 0"></a>State 0</h4><p>此状态中有 $S’ \rightarrow .S$</p>
+<p>检查 <code>.</code> 后是否为非终结符，得到 $S$，由于 $S$ 是非终结符，所以将 $S$ 的产生式加入此状态得到</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+S' \rightarrow .S \\
+S \rightarrow .L*L \\
+S \rightarrow .L \\
+\end{cases}</script><p>再检查新加入的，得到 $L$ 也需要加入此状态</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+S' \rightarrow .S \\
+S \rightarrow .L*L \\
+S \rightarrow .L \\
+L \rightarrow .LB \\
+L \rightarrow .B \\
+\end{cases}</script><p>最后发现 $B$ 也是需要加入此状态的得到 State 0 的最终结果</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+S' \rightarrow .S \\
+S \rightarrow .L*L \\
+S \rightarrow .L \\
+L \rightarrow .LB \\
+L \rightarrow .B \\
+B \rightarrow .0 \\
+B \rightarrow .1
+\end{cases}</script><p>接下来的每个状态都是从 State 转换过来的，即将小数点向后移动，可以得到不同的状态<br>根据其状态内的产生式，可以得到 State 0 可以有 $S, L, B, 0, 1$ 这五个转移方式</p>
+<h4 id="State-1"><a href="#State-1" class="headerlink" title="State 1"></a>State 1</h4><p>设定 State 1 是从 State 0 通过 $S$ 转移过来的</p>
+<p>所以可以得到，仅</p>
+<script type="math/tex; mode=display">S' \rightarrow S.</script><p>满足，所以 State 1 即只有此产生式，且不可以再转移</p>
+<p>注意，State 1 是第一个产生式的最后的结果，所以此状态作为 <code>Accept</code> 状态，简称 <code>acc</code></p>
+<h4 id="State-2"><a href="#State-2" class="headerlink" title="State 2"></a>State 2</h4><p>设定 State 2 是从 State 0 通过 $L$ 转移过来</p>
+<p>所以可以直接得到的有</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+S \rightarrow L.*L \\
+S \rightarrow L. \\
+L \rightarrow L.B \\
+\end{cases}</script><p>对于第三个式子，其满足条件(<code>.</code>后为非终结符)，所以需要把 $B$ 加入此状态</p>
+<p>即得到</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+S \rightarrow L.*L \\
+S \rightarrow L. \\
+L \rightarrow L.B \\
+B \rightarrow .0 \\
+B \rightarrow .1
+\end{cases}</script><h4 id="其他-State"><a href="#其他-State" class="headerlink" title="其他 State"></a>其他 State</h4><p>不断重复上述步骤，得到下面的图和结果</p>
+<script type="math/tex; mode=display">
+State 0 = 
+\begin{cases}
+S' \rightarrow .S \\
+S \rightarrow .L*L \\
+S \rightarrow .L \\
+L \rightarrow .LB \\
+L \rightarrow .B \\
+B \rightarrow .0 \\
+B \rightarrow .1
+\end{cases}</script><script type="math/tex; mode=display">
+State 1 =
+\begin{cases}
+S' \rightarrow S.
+\end{cases}</script><script type="math/tex; mode=display">
+State 2 =
+\begin{cases}
+S \rightarrow L.*L \\
+S \rightarrow L. \\
+L \rightarrow L.B \\
+B \rightarrow .0 \\
+B \rightarrow .1
+\end{cases}</script><script type="math/tex; mode=display">
+State 3 =
+\begin{cases}
+L \rightarrow B.
+\end{cases}</script><script type="math/tex; mode=display">
+State 4 =
+\begin{cases}
+B \rightarrow 0.
+\end{cases}</script><script type="math/tex; mode=display">
+State 5 =
+\begin{cases}
+B \rightarrow 1.
+\end{cases}</script><script type="math/tex; mode=display">
+State 6 =
+\begin{cases}
+S \rightarrow L*.L \\
+L \rightarrow .LB \\
+L \rightarrow .B \\
+B \rightarrow .0 \\
+B \rightarrow .1
+\end{cases}</script><script type="math/tex; mode=display">
+State 7 =
+\begin{cases}
+L \rightarrow LB.
+\end{cases}</script><script type="math/tex; mode=display">
+State 8 =
+\begin{cases}
+S \rightarrow L*L. \\
+L \rightarrow L.B \\
+B \rightarrow .0 \\
+B \rightarrow .1
+\end{cases}</script><pre><code class=" mermaid">graph LR
+A[State 0] -- S --&gt; B[State 1]
+A[State 0] -- L --&gt; C[State 2]
+A[State 0] -- B --&gt; D[State 3]
+A[State 0] -- 0 --&gt; E[State 4]
+A[State 0] -- 1 --&gt; F[State 5]
+C[State 2] -- * --&gt; G[State 6]
+C[State 2] -- B --&gt; H[State 7]
+C[State 2] -- 0 --&gt; E[State 4]
+C[State 2] -- 1 --&gt; F[State 5]
+G[State 6] -- L --&gt; I[State 8]
+G[State 6] -- B --&gt; D[State 3]
+G[State 6] -- 0 --&gt; E[State 4]
+G[State 6] -- 1 --&gt; F[State 5]
+I[State 8] -- B --&gt; H[State 7]
+I[State 8] -- 0 --&gt; E[State 4]
+I[State 8] -- 1 --&gt; F[State 5]
+B[State 1] --&gt; Accept([Accept])
+</code></pre>
+<h3 id="创建LR分析表"><a href="#创建LR分析表" class="headerlink" title="创建LR分析表"></a>创建LR分析表</h3><p>由此图和上面的集合可以画出表格</p>
+<table border="0" cellpadding="0" cellspacing="0" width="576" style="border-collapse: 
+ collapse;table-layout:fixed;width:432pt">
+    <colgroup>
+        <col class="x22" width="72" span="8" style="mso-width-source:userset;width:54pt">
+    </colgroup>
+    <tbody>
+        <tr height="19" style="mso-height-source:userset;height:14.25pt" id="r0">
+            <td rowspan="2" height="38" class="x21" width="72" style="height:28.5pt;width:54pt;">状态</td>
+            <td colspan="4" class="x21" width="288">ACTION</td>
+            <td colspan="3" class="x21" width="216">GOTO</td>
+        </tr>
+        <tr height="19" style="mso-height-source:userset;height:14.25pt" id="r1">
+            <td class="x22">0</td>
+            <td class="x22">1</td>
+            <td class="x22">*</td>
+            <td class="x22">$</td>
+            <td class="x22">S</td>
+            <td class="x22">L</td>
+            <td class="x22">B</td>
+        </tr>
+        <tr height="19" style="mso-height-source:userset;height:14.25pt" id="r2">
+            <td height="19" class="x22" style="height:14.25pt;">0</td>
+            <td class="x22">s4</td>
+            <td class="x22">s5</td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+            <td class="x22">1</td>
+            <td class="x22">2</td>
+            <td class="x22">3</td>
+        </tr>
+        <tr height="19" style="mso-height-source:userset;height:14.25pt" id="r3">
+            <td height="19" class="x22" style="height:14.25pt;">1</td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+            <td class="x22">acc</td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+        </tr>
+        <tr height="19" style="mso-height-source:userset;height:14.25pt" id="r4">
+            <td height="19" class="x22" style="height:14.25pt;">2</td>
+            <td class="x22">s4</td>
+            <td class="x22">s5</td>
+            <td class="x22">s6</td>
+            <td class="x22">r2</td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+            <td class="x22">7</td>
+        </tr>
+        <tr height="19" style="mso-height-source:userset;height:14.25pt" id="r5">
+            <td height="19" class="x22" style="height:14.25pt;">3</td>
+            <td class="x22">r4</td>
+            <td class="x22">r4</td>
+            <td class="x22">r4</td>
+            <td class="x22">r4</td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+        </tr>
+        <tr height="19" style="mso-height-source:userset;height:14.25pt" id="r6">
+            <td height="19" class="x22" style="height:14.25pt;">4</td>
+            <td class="x22">r5</td>
+            <td class="x22">r5</td>
+            <td class="x22">r5</td>
+            <td class="x22">r5</td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+        </tr>
+        <tr height="19" style="mso-height-source:userset;height:14.25pt" id="r7">
+            <td height="19" class="x22" style="height:14.25pt;">5</td>
+            <td class="x22">r6</td>
+            <td class="x22">r6</td>
+            <td class="x22">r6</td>
+            <td class="x22">r6</td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+        </tr>
+        <tr height="19" style="mso-height-source:userset;height:14.25pt" id="r8">
+            <td height="19" class="x22" style="height:14.25pt;">6</td>
+            <td class="x22">s4</td>
+            <td class="x22">s5</td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+            <td class="x22">8</td>
+            <td class="x22">3</td>
+        </tr>
+        <tr height="19" style="mso-height-source:userset;height:14.25pt" id="r9">
+            <td height="19" class="x22" style="height:14.25pt;">7</td>
+            <td class="x22">r3</td>
+            <td class="x22">r3</td>
+            <td class="x22">r3</td>
+            <td class="x22">r3</td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+        </tr>
+        <tr height="19" style="mso-height-source:userset;height:14.25pt" id="r10">
+            <td height="19" class="x22" style="height:14.25pt;">8</td>
+            <td class="x22">s4</td>
+            <td class="x22">s5</td>
+            <td class="x22"></td>
+            <td class="x22">r1</td>
+            <td class="x22"></td>
+            <td class="x22"></td>
+            <td class="x22">7</td>
+        </tr>
+        <!--[if supportMisalignedColumns]-->
+        <tr height="0" style="display:none">
+            <td width="72" style="width:54pt"></td>
+            <td width="72" style="width:54pt"></td>
+            <td width="72" style="width:54pt"></td>
+            <td width="72" style="width:54pt"></td>
+            <td width="72" style="width:54pt"></td>
+            <td width="72" style="width:54pt"></td>
+            <td width="72" style="width:54pt"></td>
+            <td width="72" style="width:54pt"></td>
+        </tr>
+        <!--[endif]-->
+    </tbody>
+</table>
+
+<p>表的构建原则：</p>
+<ul>
+<li>首先，表头分为两列，ACTION 和 GOTO，在 ACTION 下均为终结符，而在 GOTO 下均为非终结符，其中在 ACTION 下还需要加上 <code>$</code> 状态标识匹配结束符(在LL(1)文法中，使用了 <code>#</code> 作为结束符，实际上两种方法均可作为结束符，只需要在题目中注明即可)</li>
+<li>对于每一个状态，如果它在图中存在任何转移的方向，则将此转移方向填入表格中。如果转移状态为非终结符，则直接填入对应状态的序号，如果为终结符，则格式为 <code>sn</code> 其中 <code>n</code> 为转移的目标状态<ul>
+<li>以图中 State 0 为例，其可以通过 $B$ 转移至 State 3，而 $B$ 是一个非终结符，所以在状态为 0 的那一行的第 $B$ 类填上 <code>3</code> 即可</li>
+<li>以图中 State 0 为例，其可以通过 $0$ 转移至 State 4，所以在状态为 0 的那一行的第 $0$ 列填上 <code>s4</code></li>
+</ul>
+</li>
+<li>若此状态中存在任何一个产生式满足 <code>.</code> 在此产生式的最后<ul>
+<li>假定此状态内的等式有两类，则进行如下操作(此时可以确定，此文法不可能为 LR(0)，但是可以是SLR(1))<blockquote>
+<p>既有满足条件的，又有不满足条件的时候</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+A_1 \rightarrow \alpha_1 . a_1 \beta_1 \\
+A_2 \rightarrow \alpha_2 . a_2 \beta_2 \\
+\dots \\
+B_1 \rightarrow \gamma_1 . \\
+B_2 \rightarrow \gamma_2 . \\
+\dots
+\end{cases}</script><p>显然，前面的产生式为不满足条件的产生式，后面的产生式均为满足条件的产生式<br>若均满足下列条件，则认为可以通过 SLR 分析法处理，否则认为不可解</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+\forall FOLLOW(B_i) \cap \{a_1, a_2 \dots \}  = \varnothing \\
+\forall FOLLOW(B_i) \cap \forall FOLLOW(B_j) = \varnothing 
+\end{cases}</script><p>若满足上述条件，则对于 <code>ACTION</code> 列中的每一项 $a$<br>若 $a \in {a_1, a_2 \dots }$，则采用 <code>sn</code> 的标识方式，即<br>若 $a \in FOLLOW(B_i)$，则在所在列标注上 <code>rn</code>，其中 <code>n</code> 指代第几号产生式，这条产生式为 $B_i \rightarrow \gamma_i$</p>
+</blockquote>
+</li>
+<li>若此状态内的等式只有一类，即只有满足条件的，则在其所有的 ACTION 列中用 <code>rn</code> 标注(若只有此条件的状态，则此时可以称文法为 LR(0) 文法)<blockquote>
+<p>以 State 2 为例，有四个式子不满足条件，仅一个式子满足条件。其中 $S \rightarrow L.$ 为满足条件的式子，剩下四个均不满足条件。所以我们先求出 $S$ 的 <script type="math/tex">FOLLOW(S) = \{\$\}</script>，满足等式 <script type="math/tex">FOLLOW(S) \cap \{*, B, 0, 1\} = \varnothing</script><br>接着遍历所有 <code>ACTION</code> 内的符号，对于 $0$ 而言，其属于 <script type="math/tex">\{*, B, 0, 1\}</script> 所以，写入 <code>s4</code><br>对于 $\$$ 而言，其属于 FOLLOW(S)，所以写上 $S \rightarrow L$ 这个产生对应的序号，即 <code>r2</code></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ## LR(1) 和 LALR(1)
+
+提出了后继符号概念
+
+定义每一个产生式应当描述为
+
+$$A \rightarrow \alpha . \beta, a$$
+
+其中，前半部分为普通的产生式，后面紧跟一个<font color=red>展望符</font>。其表示 $A$ 后面必须紧跟的终结符，其通常是 FOLLOW(A) 的真子集。
+
+ - LR(1) 中的 1 表示的即为此展望符的长度
+ - 当 $\beta \neq \varepsilon$ 时，此展望符没有任何作用
+ - 当 $\beta = \varepsilon$ 时，当且仅当下一个符号属于 $a$ 时，才可以用此产生式进行规约
+ - 若存在 $B \rightarrow \gamma$ 则其展望符为 $FIRST(\beta a)$，当 $\beta \Rightarrow^* \varepsilon$ 时，此时展望符为 $a$
+
+此时，再进行类似 LL(0) 文法的分析操作，以下面的文法为例
+
+$$
+\begin{cases}
+S \rightarrow L=R | R \\
+L \rightarrow *R | id \\
+R \rightarrow L
+\end{cases}
+$$
+
+此处省略过程，直接得到答案
+
+### 处理后的产生式为
+$$
+\begin{cases}
+ 0) S' \rightarrow S \\
+ 1) S \rightarrow L=R \\
+ 2) S \rightarrow R \\
+ 3) L \rightarrow *R \\
+ 4) L \rightarrow id \\
+ 5) R \rightarrow L
+\end{cases}
+$$
+
+### 每个状态的产生式为
+$$
+State 0
+\begin{cases}
+S' \rightarrow .S, \$ \\
+S \rightarrow .L=R, \$ \\
+S \rightarrow .R, \$ \\
+L \rightarrow .*R, =/\$ \\
+L \rightarrow .id, =/\$ \\
+R \rightarrow .L, =/\$
+\end{cases}
+$$
+
+$$
+State 1
+\begin{cases}
+S' \rightarrow S.,\$
+\end{cases}
+$$
+
+$$
+State 2
+\begin{cases}
+S \rightarrow L.=R,\$ \\
+R \rightarrow L.,\$
+\end{cases}
+$$
+
+$$
+State 3
+\begin{cases}
+S \rightarrow R.,\$
+\end{cases}
+$$
+
+$$
+State 4
+\begin{cases}
+L \rightarrow *.R,=/\$ \\
+R \rightarrow .L, =/\$ \\
+L \rightarrow .*R, =/\$ \\
+L \rightarrow .id, =/\$
+\end{cases}
+$$
+
+$$
+State 4
+\begin{cases}
+S \rightarrow L=.R,\$ \\
+R \rightarrow .L, \$ \\
+L \rightarrow .*R, \$ \\
+L \rightarrow .id, \$
+\end{cases}
+$$ -->
+<h1 id="LR-1-和-LALR-1"><a href="#LR-1-和-LALR-1" class="headerlink" title="LR(1) 和 LALR(1)"></a>LR(1) 和 LALR(1)</h1><p>略</p>
+
             </div>
             <hr>
             <div>
@@ -751,6 +1413,13 @@ S' \rightarrow Ad|Be
 
 
 
+
+  <script  src="https://cdn.jsdelivr.net/npm/mermaid@8.8.3/dist/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
 
 
 
