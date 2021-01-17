@@ -174,7 +174,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      7.7k 字
+      8.2k 字
     </span>
   
 
@@ -184,7 +184,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      96
+      104
        分钟
     </span>
   
@@ -1251,7 +1251,43 @@ L \rightarrow \{ L_1.type = L.type \} L_1, id
 <li>将计算一个产生式左部符号的综合属性的动作放置在这个产生式右部的最右端</li>
 </ul>
 <p>使用时，当在进行规约操作时，需要同时执行此程序片段</p>
-<h1 id="中间代码生成"><a href="#中间代码生成" class="headerlink" title="中间代码生成"></a>中间代码生成</h1><p>暂略</p>
+<h1 id="中间代码生成"><a href="#中间代码生成" class="headerlink" title="中间代码生成"></a>中间代码生成</h1><h2 id="中间代码举例"><a href="#中间代码举例" class="headerlink" title="中间代码举例"></a>中间代码举例</h2><ul>
+<li>AST，抽象语法树</li>
+<li>TAC，三地址码，四元式</li>
+<li>P-code，特别用于 Pasal 语言实现</li>
+<li>Bytecode，Java 编译器的输出</li>
+<li>SSA，静态单赋值形式</li>
+</ul>
+<h2 id="典型语句的翻译-四元式"><a href="#典型语句的翻译-四元式" class="headerlink" title="典型语句的翻译(四元式)"></a>典型语句的翻译(四元式)</h2><h3 id="赋值语句"><a href="#赋值语句" class="headerlink" title="赋值语句"></a>赋值语句</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">x = b * (c + d) + a<br></code></pre></td></tr></table></figure>
+<ol>
+<li><code>(+, c, d, t1)</code></li>
+<li><code>(*, b, t1, t2)</code></li>
+<li><code>(+, t2, a, t3)</code></li>
+<li><code>(=, t3,  , x)</code></li>
+</ol>
+<h3 id="布尔表达式"><a href="#布尔表达式" class="headerlink" title="布尔表达式"></a>布尔表达式</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">(a &gt; b) &amp;&amp; (c &lt; d) || (e &lt; f) &amp;&amp; (!g)<br></code></pre></td></tr></table></figure>
+<ol>
+<li><code>(j&gt;, a, b, 3)</code></li>
+<li><code>(j, , ,5)</code></li>
+<li><code>(j&lt;, c, d, true)</code></li>
+<li><code>(j, , , 5)</code></li>
+<li><code>(j&lt;, e, f, 7)</code></li>
+<li><code>(j, , , false)</code></li>
+<li><code>(jnz, g, , true)</code></li>
+<li><code>(j, , , false)</code></li>
+</ol>
+<h3 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (a &gt; <span class="hljs-number">0</span>) x = x + <span class="hljs-number">1</span> <span class="hljs-keyword">else</span> x = <span class="hljs-number">4</span> * (x - <span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+<ol>
+<li><code>(j&gt;, a, 0, 3)</code></li>
+<li><code>(j, , , 6)</code></li>
+<li><code>(+, x, 1, t1)</code></li>
+<li><code>(=, t1, , x)</code></li>
+<li><code>(j, , , 9)</code></li>
+<li><code>(-, x, 1, t2)</code></li>
+<li><code>(*, 4, t2, t3)</code></li>
+<li><code>(=, t3, , x)</code></li>
+<li></li>
+</ol>
 <h1 id="运行存储分配"><a href="#运行存储分配" class="headerlink" title="运行存储分配"></a>运行存储分配</h1><ul>
 <li>对于那些在编译时刻就可以确定大小的数据对象，可以在编译时刻就为它们分配存储空间，这样的分配策略称为<font color=red>静态存储分配</font></li>
 <li>反之，如果不能在编译时完全确定数据对象的大小，就要采用<font color=red>动态存储分配</font>的策略。即在编译时仅产生各种必要的信息，而在运行时刻，再动态地分配数据对象的存储空间</li>
@@ -1310,6 +1346,56 @@ B4 --&gt; B6
 B5 --&gt; B2
 </code></pre></p>
 <h2 id="常用的代码优化方法"><a href="#常用的代码优化方法" class="headerlink" title="常用的代码优化方法"></a>常用的代码优化方法</h2><p>暂略</p>
+<h2 id="基本块的优化"><a href="#基本块的优化" class="headerlink" title="基本块的优化"></a>基本块的优化</h2><p>将基本块通过 DAG(有向无环图) 表示</p>
+<p>例如对于代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp">a = b + c;<br>b = b - d;<br>c = c + d;<br>e = b + c;<br></code></pre></td></tr></table></figure>
+<p>可以绘制出如下的 DAG 图(通常在图上标注运算符号而不是字母，这里为了更容易理解标注了字母)</p>
+<pre><code class=" mermaid">graph LR
+b0((b)) --&gt; a0((a))
+c0((c)) --&gt; a0((a))
+b0((b)) --&gt; b1((b))
+d0((d)) --&gt; b1((b))
+c0((c)) --&gt; c1((c))
+d0((d)) --&gt; c1((c))
+c1((c)) --&gt; e0((e))
+b1((b)) --&gt; e0((e))
+</code></pre>
+<p>若结果 <code>e</code> 是需要返回的值，即其他基本块需要使用的值，则通过 DAG 图可知，变量 <code>a</code> 是无用的，可以删除</p>
+<p>得到新的图为<br><pre><code class=" mermaid">graph LR
+b0((b)) --&gt; b1((b))
+d0((d)) --&gt; b1((b))
+c0((c)) --&gt; c1((c))
+d0((d)) --&gt; c1((c))
+c1((c)) --&gt; e0((e))
+b1((b)) --&gt; e0((e))
+</code></pre><br>所以可以得到优化后的代码为<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp">b = b - d;<br>c = c + d;<br>e = b + c;<br></code></pre></td></tr></table></figure></p>
+<h2 id="数据流分析"><a href="#数据流分析" class="headerlink" title="数据流分析"></a>数据流分析</h2><p>略</p>
+<h2 id="到达定值分析"><a href="#到达定值分析" class="headerlink" title="到达定值分析"></a>到达定值分析</h2><p>暂略</p>
+<h2 id="代码优化技术"><a href="#代码优化技术" class="headerlink" title="代码优化技术"></a>代码优化技术</h2><ul>
+<li>依优化范围划分<ul>
+<li>窥孔优化：局部的几条指令范围内的优化</li>
+<li>局部优化：基本块范围内的优化</li>
+<li>全局优化：流图范围内的优化</li>
+<li>过程间优化：整个程序范围内的优化</li>
+</ul>
+</li>
+<li>依优化对象划分<ul>
+<li>目标代码优化：面向代码优化</li>
+<li>中间代码优化：面向程序的中间表示</li>
+<li>源级优化：面向源程序</li>
+</ul>
+</li>
+<li>依优化侧面划分<ul>
+<li>指令调度</li>
+<li>寄存器分配</li>
+<li>存储层次优化</li>
+<li>存储布局优化</li>
+<li>循环优化</li>
+<li>控制流优化</li>
+<li>过程优化</li>
+</ul>
+</li>
+</ul>
 
             </div>
             <hr>
