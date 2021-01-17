@@ -174,7 +174,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6k 字
+      7.7k 字
     </span>
   
 
@@ -184,7 +184,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      77
+      96
        分钟
     </span>
   
@@ -747,7 +747,7 @@ SELECT(F \rightarrow i) \cup SELECT(F \rightarrow (E)) = \varnothing
 </table>
 </div>
 <p>匹配成功</p>
-<h2 id="LL-1-分析中的出错处理"><a href="#LL-1-分析中的出错处理" class="headerlink" title="LL(1) 分析中的出错处理"></a>LL(1) 分析中的出错处理</h2><p>暂略</p>
+<h2 id="LL-1-分析中的出错处理"><a href="#LL-1-分析中的出错处理" class="headerlink" title="LL(1) 分析中的出错处理"></a>LL(1) 分析中的出错处理</h2><p>略</p>
 <h1 id="自底向上优先分析"><a href="#自底向上优先分析" class="headerlink" title="自底向上优先分析"></a>自底向上优先分析</h1><h2 id="自底向下的分析思想"><a href="#自底向下的分析思想" class="headerlink" title="自底向下的分析思想"></a>自底向下的分析思想</h2><p>从分析树的底部(叶节点)向顶部(根节点)方向构造分析树，可以看成是将输入串w归约为文法开始符号S的过程，自底向上的语法分析采用最左归约方式（反向构造最右推导）</p>
 <h1 id="LR-0-和-SLR-1-分析法"><a href="#LR-0-和-SLR-1-分析法" class="headerlink" title="LR(0) 和 SLR(1) 分析法"></a>LR(0) 和 SLR(1) 分析法</h1><ul>
 <li>L: 对输入进行从左到右的扫描</li>
@@ -1156,6 +1156,160 @@ L \rightarrow .id, \$
 \end{cases}
 $$ -->
 <h1 id="LR-1-和-LALR-1"><a href="#LR-1-和-LALR-1" class="headerlink" title="LR(1) 和 LALR(1)"></a>LR(1) 和 LALR(1)</h1><p>略</p>
+<h1 id="语法制导翻译"><a href="#语法制导翻译" class="headerlink" title="语法制导翻译"></a>语法制导翻译</h1><p>即将上面的那些产生式带入实际的使用中</p>
+<p>例如可以通过下面的文法来描述 <code>C</code> 语言的定义一个变量的过程</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">产生式</th>
+<th style="text-align:center">语义规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$S \rightarrow TL$</td>
+<td style="text-align:center">L的类型为T</td>
+</tr>
+<tr>
+<td style="text-align:center">$T \rightarrow int$</td>
+<td style="text-align:center">T为int</td>
+</tr>
+<tr>
+<td style="text-align:center">$T \rightarrow double$</td>
+<td style="text-align:center">T为double</td>
+</tr>
+<tr>
+<td style="text-align:center">$L \rightarrow L, id$</td>
+<td style="text-align:center">创建一个新的 <script type="math/tex">L_{右}</script>，将其类型设置为 <script type="math/tex">L_{左}</script> 相同的类型。并创建一个变量，其类型为 <script type="math/tex">L_{左}</script> 的类型，名字为 <script type="math/tex">id</script></td>
+</tr>
+<tr>
+<td style="text-align:center">$L \rightarrow id$</td>
+<td style="text-align:center">创建一个变量，其类型为 <script type="math/tex">L_{左}</script> 的类型，名字为 <script type="math/tex">id</script></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>改为用属性来描述，则可以得到如下表格</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">产生式</th>
+<th style="text-align:center">语义规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$S \rightarrow TL$</td>
+<td style="text-align:center"><code>L.type = T.type</code></td>
+</tr>
+<tr>
+<td style="text-align:center">$T \rightarrow int$</td>
+<td style="text-align:center"><code>T.type = int</code></td>
+</tr>
+<tr>
+<td style="text-align:center">$T \rightarrow double$</td>
+<td style="text-align:center"><code>T.type = double</code></td>
+</tr>
+<tr>
+<td style="text-align:center">$L \rightarrow L, id$</td>
+<td style="text-align:center"><code>L(右).type = L.type</code><br><code>CreateVar(type = L.type, name = id.name)</code></td>
+</tr>
+<tr>
+<td style="text-align:center">$L \rightarrow id$</td>
+<td style="text-align:center"><code>CreateVar(type = L.type, name = id.name)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>语法制导定义(SDD)</li>
+<li>语法制导翻译方案(SDT)</li>
+</ul>
+<h2 id="SDD-语法制导定义"><a href="#SDD-语法制导定义" class="headerlink" title="SDD(语法制导定义)"></a>SDD(语法制导定义)</h2><h3 id="综合属性和继承属性"><a href="#综合属性和继承属性" class="headerlink" title="综合属性和继承属性"></a>综合属性和继承属性</h3><p>对于一个产生式产生的语义规则中，如果产生式左部的属性是仅通过右部的属性得到的，则称此属性为<font color=red>综合属性</font>。而如果产生式右部的属性是通过右部的属性或者左部的属性得到的，则称为<font color=red>继承属性</font></p>
+<p><img src="/image/notebook/Compilation-principle/L-SDD.png" srcset="/img/loading.gif" alt="L-SDD"></p>
+<h3 id="S-属性定义-与-L-属性定义"><a href="#S-属性定义-与-L-属性定义" class="headerlink" title="S-属性定义 与 L-属性定义"></a>S-属性定义 与 L-属性定义</h3><h4 id="S-属性文法"><a href="#S-属性文法" class="headerlink" title="S-属性文法"></a>S-属性文法</h4><p>仅仅使用综合属性的SDD称为S属性的SDD，或S-属性定义、S-SDD</p>
+<h4 id="L-属性文法"><a href="#L-属性文法" class="headerlink" title="L-属性文法"></a>L-属性文法</h4><p>一个SDD是L-属性定义(L-SDD)，当且仅当它的每个属性要么是一个综合属性，要么是满足如下条件的继承属性：假如存在一个产生式 $A \rightarrow X_1 X_2 X_3 \dots$，若存在一个 $X_i$，它的一个属性值与下面的有关</p>
+<ul>
+<li>$A$ 的继承属性</li>
+<li>来自 <script type="math/tex">X_1, X_2, X_3, \dots , X_{i-1}</script> 的属性</li>
+<li>$X_i$ 自身的属性，但不能形成死循环</li>
+</ul>
+<p>例如上面的图片即为 L-SDD</p>
+<h2 id="SDT-语法制导翻译方案"><a href="#SDT-语法制导翻译方案" class="headerlink" title="SDT(语法制导翻译方案)"></a>SDT(语法制导翻译方案)</h2><p>语法制导翻译方案(SDT)是在产生式右部中嵌入了程序片段(称为语义动作)的CFG(上下文无关文法)</p>
+<p>例如</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+D \rightarrow T \{L.type = T.type \} L \\
+T \rightarrow int \{T.type = int \} \\
+T \rightarrow double \{T.type = double \} \\
+L \rightarrow \{ L_1.type = L.type \} L_1, id
+\end{cases}</script><p>嵌入规则如下</p>
+<ul>
+<li>将计算某个非终结符号A的继承属性的动作插入到产生式右部中紧靠在A的本次出现之前的位置上</li>
+<li>将计算一个产生式左部符号的综合属性的动作放置在这个产生式右部的最右端</li>
+</ul>
+<p>使用时，当在进行规约操作时，需要同时执行此程序片段</p>
+<h1 id="中间代码生成"><a href="#中间代码生成" class="headerlink" title="中间代码生成"></a>中间代码生成</h1><p>暂略</p>
+<h1 id="运行存储分配"><a href="#运行存储分配" class="headerlink" title="运行存储分配"></a>运行存储分配</h1><ul>
+<li>对于那些在编译时刻就可以确定大小的数据对象，可以在编译时刻就为它们分配存储空间，这样的分配策略称为<font color=red>静态存储分配</font></li>
+<li>反之，如果不能在编译时完全确定数据对象的大小，就要采用<font color=red>动态存储分配</font>的策略。即在编译时仅产生各种必要的信息，而在运行时刻，再动态地分配数据对象的存储空间</li>
+</ul>
+<p><img src="/image/notebook/Compilation-principle/memory.png" srcset="/img/loading.gif" alt="memory"></p>
+<ul>
+<li>使用过程(或函数、方法)作为用户自定义动作的单元的语言，其编译器通常以过程为单位分配存储空间</li>
+<li>过程体的每次执行称为该过程的一个<font color=red>活动</font>(activation)</li>
+<li>过程每执行一次，就为它分配一块连续存储区，用来管理过程一次执行所需的信息，这块连续存储区称为<font color=red>活动记录</font>(activation record)</li>
+</ul>
+<h2 id="静态存储分配"><a href="#静态存储分配" class="headerlink" title="静态存储分配"></a>静态存储分配</h2><ul>
+<li>静态存储分配中，由编译器决定其在程序中的位置，每次运行时，其位置都相同</li>
+<li>限制条件<ul>
+<li>数组上下界均为常数</li>
+<li>不允许过程的递归调用</li>
+<li>不允许动态建立数据实体</li>
+</ul>
+</li>
+</ul>
+<h3 id="顺序分配法"><a href="#顺序分配法" class="headerlink" title="顺序分配法"></a>顺序分配法</h3><p>为每个静态过程都逐段分配存储空间，每个过程的内存空间都相互独立且不相交</p>
+<p>优点：处理上简单<br>缺点：对内存空间的使用不够经济合理</p>
+<h3 id="层次分配法"><a href="#层次分配法" class="headerlink" title="层次分配法"></a>层次分配法</h3><p>通过对过程间的调用关系进行分析，凡属无相互调用关系的并列过程，尽量使其局部数据<font color=red>共享</font>存储空间</p>
+<h2 id="栈式存储分配"><a href="#栈式存储分配" class="headerlink" title="栈式存储分配"></a>栈式存储分配</h2><p>将内存认为是一个栈空间</p>
+<p>当一个过程被调用时，向栈中推入一个活动记录，当此过程结束时，该记录被弹出栈</p>
+<h2 id="活动树"><a href="#活动树" class="headerlink" title="活动树"></a>活动树</h2><p>用来描述程序运行期间控制进入和离开各个活动的情况的树称为活动树。在表示过程 p 的某个活动的结点上，其子结点对应于被 p的这次活动调用的各个过程的活动。按照这些活动被调用的顺序，自左向右地显示它们。一个子结点必须在其右兄弟结点的活动开始之前结束</p>
+<h2 id="调用序列和返回序列"><a href="#调用序列和返回序列" class="headerlink" title="调用序列和返回序列"></a>调用序列和返回序列</h2><p>暂略</p>
+<h2 id="非局部数据的访问"><a href="#非局部数据的访问" class="headerlink" title="非局部数据的访问"></a>非局部数据的访问</h2><p>暂略</p>
+<h2 id="堆式存储分配"><a href="#堆式存储分配" class="headerlink" title="堆式存储分配"></a>堆式存储分配</h2><p>暂略</p>
+<h2 id="符号表"><a href="#符号表" class="headerlink" title="符号表"></a>符号表</h2><p>暂略</p>
+<h1 id="代码优化"><a href="#代码优化" class="headerlink" title="代码优化"></a>代码优化</h1><h2 id="流图"><a href="#流图" class="headerlink" title="流图"></a>流图</h2><h3 id="基本块"><a href="#基本块" class="headerlink" title="基本块"></a>基本块</h3><ul>
+<li>控制流只能从基本块的第一个指令进入该块。也就是说，没有跳转到基本块中间或末尾指令的转移指令</li>
+<li>除了基本块的最后一个指令，控制流在离开基本块之前不会跳转或者停机</li>
+</ul>
+<p>划分方法：</p>
+<ul>
+<li>确定首指令<ul>
+<li>第一个指令是首指令</li>
+<li>任何一个条件或无条件转移的指令的目标指令是一个首指令</li>
+<li>紧跟在一个条件或无条件转移指令之后的指令是一个首指令</li>
+</ul>
+</li>
+<li>任意两个相邻的首指令之间的记为一个基本块</li>
+</ul>
+<p>例如对于代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp">i = m - <span class="hljs-number">1</span>;<br>j = n;<br>v = a[n];<br><span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;<br>    <span class="hljs-keyword">do</span> i = i + <span class="hljs-number">1</span>; <span class="hljs-keyword">while</span>(a[i] &lt; v);<br>    <span class="hljs-keyword">do</span> j = j - <span class="hljs-number">1</span>; <span class="hljs-keyword">while</span>(a[j] &gt; v);<br>    <span class="hljs-keyword">if</span> (i &gt;= j) <span class="hljs-keyword">break</span>;<br>    x = a[i];<br>    a[i] = a[j];<br>    a[j] = x;<br>&#125;<br>x = a[i];<br>a[i] = a[n];<br>a[n] = x;<br></code></pre></td></tr></table></figure>
+<p>可以划分出 6 个基本块</p>
+<p>B1:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp">i = m - <span class="hljs-number">1</span>;<br>j = n;<br>v = a[n];<br></code></pre></td></tr></table></figure><br>B2:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">i = i + <span class="hljs-number">1</span>;<br><span class="hljs-keyword">if</span> a[i] &lt; v <span class="hljs-keyword">goto</span> B2<br></code></pre></td></tr></table></figure><br>B3:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">j = j - <span class="hljs-number">1</span>;<br><span class="hljs-keyword">if</span> a[j] &gt; v <span class="hljs-keyword">goto</span> B3<br></code></pre></td></tr></table></figure><br>B4:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">if</span> i &gt;= j <span class="hljs-keyword">goto</span> B6<br></code></pre></td></tr></table></figure><br>B5:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp">x = a[i];<br>a[i] = a[j];<br>a[j] = x;<br><span class="hljs-keyword">goto</span> B2<br></code></pre></td></tr></table></figure><br>B6:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp">x = a[i];<br>a[i] = a[n];<br>a[n] = x;<br></code></pre></td></tr></table></figure></p>
+<h3 id="流图-1"><a href="#流图-1" class="headerlink" title="流图"></a>流图</h3><p>根据上面的基本块，再根据其转跳关系，可以绘制流图<br><pre><code class=" mermaid">graph LR
+B1 --&gt; B2
+B2 --&gt; B2
+B2 --&gt; B3
+B3 --&gt; B3
+B3 --&gt; B4
+B4 --&gt; B5
+B4 --&gt; B6
+B5 --&gt; B2
+</code></pre></p>
+<h2 id="常用的代码优化方法"><a href="#常用的代码优化方法" class="headerlink" title="常用的代码优化方法"></a>常用的代码优化方法</h2><p>暂略</p>
 
             </div>
             <hr>
