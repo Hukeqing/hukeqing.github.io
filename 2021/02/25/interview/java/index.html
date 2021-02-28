@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Shiroha">
   <meta name="keywords" content="">
-  <title>WSL1 使用 Docker 一直无法启动 - Shiroha白羽的博客</title>
+  <title>面试复习（Java） - Shiroha白羽的博客</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -152,7 +152,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="WSL1 使用 Docker 一直无法启动">
+            <span class="h2" id="subtitle" title="面试复习（Java）">
               
             </span>
 
@@ -162,8 +162,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-12-24 15:55" pubdate>
-        2020年12月24日 下午
+      <time datetime="2021-02-25 23:46" pubdate>
+        2021年2月25日 晚上
       </time>
     </span>
   
@@ -174,7 +174,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      98 字
+      936 字
     </span>
   
 
@@ -184,7 +184,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      9
        分钟
     </span>
   
@@ -214,11 +214,123 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">WSL1 使用 Docker 一直无法启动</h1>
+            <h1 style="display: none">面试复习（Java）</h1>
             
             <div class="markdown-body">
-              <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>WSL1 无法正常启动 Dokcer，Dokcer一直处于 not running 状态</p>
-<h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><p>WSL1 是伪 Linux，实际上仍然是 Windows 底层，而 Docker 是基于系统底层实现的，这就导致了无法在 Windows(WSL1) 上运行 Linux 版本的 Dokcer<br>使用 WSL2 则可以正常使用 Docker，目前上述问题在不使用 WSL2 的情况下，暂时无法解决</p>
+              <h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><ul>
+<li>线程池的原因<ul>
+<li>不断的创建和删除线程，会带来较大的系统资源负载</li>
+<li>线程缺乏统一的管理，可能会出现无限制的创建线程</li>
+<li>线程之间抢占资源</li>
+</ul>
+</li>
+<li>线程池的属性<ul>
+<li>核心线程数：保持存在的线程数量，这些线程会一直存在，不会被删除</li>
+<li>任务缓冲队列：当所有的核心线程都在运行时，新的任务会被加入到缓冲队列中</li>
+<li>非核心线程数：当任务缓冲队列满后，将会创建新的线程来执行队列中的任务，且额外创建的线程数不会超过非核心线程数</li>
+<li>空闲线程的存活时间：当非核心线程空闲时，且持续了一段时间后，此线程将会被删除</li>
+<li>拒绝策略：当非核心线程和任务缓存队列满后，对待新的任务的策略</li>
+</ul>
+</li>
+<li>Java 默认的线程池类型</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">核心线程数</th>
+<th style="text-align:center">线程池大小</th>
+<th style="text-align:center">非核心线程存活时间</th>
+<th>等待队列大小</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">CachedThreadPool</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">$\infty$</td>
+<td style="text-align:center">60s</td>
+<td>0</td>
+</tr>
+<tr>
+<td style="text-align:center">SingleThreadExecutor</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td>$\infty$</td>
+</tr>
+<tr>
+<td style="text-align:center">FixedThreadPool</td>
+<td style="text-align:center">$n$</td>
+<td style="text-align:center">$n$</td>
+<td style="text-align:center">0</td>
+<td>$\infty$</td>
+</tr>
+<tr>
+<td style="text-align:center">ScheduledThreadPoolExecutor</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>Java 默认的线程池有什么问题，为什么会引起 OOM 异常（OutOfMemoryError）<ul>
+<li>CachedThreadPool 允许创建无线的线程，从而引起 OOM 异常</li>
+<li>SingleThreadExecutor 和 FixedThreadPool 请求队列为无限长，可能会堆积大量的消息，从而引发 OOM 异常</li>
+</ul>
+</li>
+</ul>
+<h1 id="Java-内存"><a href="#Java-内存" class="headerlink" title="Java 内存"></a>Java 内存</h1><ul>
+<li>内存模型<ul>
+<li>主内存：线程之间共享的变量储存在主内存中</li>
+<li>本地内存：每个线程独立拥有的内存</li>
+<li>本地内存保存的是主内存的共享变量的副本</li>
+</ul>
+</li>
+<li>垃圾回收<ul>
+<li>根搜索算法（可达性分析算法）从 GC ROOT 节点沿着引用链搜索，无法到达的节点即为不可到达的对象</li>
+</ul>
+</li>
+<li>垃圾回收器<ul>
+<li>G1 收集器<ul>
+<li>独特的分代垃圾回收器，分代GC：分代收集器，同时兼顾年轻代和老年代</li>
+<li>使用分区算法，不要求eden，年轻代或老年代的空间都连续</li>
+<li>并行性：回收期间，可由多个线程同时工作，有效利用多核cpu资源</li>
+<li>空间整理：回收过程中，会进行适当对象移动，减少空间碎片</li>
+<li>可预见性：G1可选取部分区域进行回收，可以缩小回收范围，减少全局停顿</li>
+</ul>
+</li>
+<li>G1 收集器的过程<ul>
+<li>初始标记（它标记了从GC Root开始直接可达的对象）Stop-The-World</li>
+<li>并发标记（从GC Roots开始对堆中对象进行可达性分析，找出存活对象）</li>
+<li>最终标记（标记那些在并发标记阶段发生变化的对象，将被回收）Stop-The-World</li>
+<li>筛选回收（首先对各个Regin的回收价值和成本进行排序，根据用户所期待的GC停顿时间指定回收计划，回收一部分Region）Stop-The-World</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h1><ul>
+<li>hashMap 的结构<ul>
+<li>采用链地址法，当发生哈希冲突时使用链表解决</li>
+<li>当链表过长时，在 JDK 1.8 下采用红黑树代替链表，当数据量较少时，转回链表</li>
+<li>当存储的数据量超过一个阈值后，hashMap 的哈希表长度将会扩容到原来的两倍，然后将所有的数据重新分配到新的内存中</li>
+</ul>
+</li>
+<li>hashMap 的这样扩容的理由<ul>
+<li>通过恰好两倍扩容，可以让原来在第 $i$ 个链表的值被恰好分配到第 $i$ 和第 $2i$ 个链表的位置</li>
+<li>每一个值，只需要判断其哈希值在某个二进制位上的值即可直接完成分配</li>
+</ul>
+</li>
+<li>treeMap 的结构<ul>
+<li>treeMap 是一棵红黑树</li>
+</ul>
+</li>
+</ul>
 
             </div>
             <hr>
@@ -229,11 +341,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%9F%AD%E7%AC%94%E8%AE%B0/">短笔记</a>
-                    
-                      <a class="hover-with-bg" href="/tags/WSL/">WSL</a>
-                    
-                      <a class="hover-with-bg" href="/tags/Dokcer/">Dokcer</a>
+                      <a class="hover-with-bg" href="/tags/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">面试准备</a>
                     
                   </div>
                 
@@ -246,18 +354,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/12/26/notebook/Computer-network-experiment/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">计算机网络实验复习</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/12/21/acm/myACM/">
-                        <span class="hidden-mobile">我的ACM脚印</span>
+                      <a href="/2021/02/24/interview/git/">
+                        <span class="hidden-mobile">面试复习（Git）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -472,6 +574,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

@@ -171,27 +171,23 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/02/25/interview/java/">面试复习（Java）</a>
+        <a href="/2021/01/18/develop-note/windows-ntfs/">Windows 下的 NTFS 驱动器索引 BUG</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/02/25/interview/java/">
+        <a href="/2021/01/18/develop-note/windows-ntfs/">
           
           
             
           
-          线程池
-线程池的原因
-不断的创建和删除线程，会带来较大的系统资源负载
-线程缺乏统一的管理，可能会出现无限制的创建线程
-线程之间抢占资源
+          NTFS BUG
+            警告，请千万不要在 Windows 下的命令行中运行此命令，或者以其他等价的方式访问
+          
+1cd c:\:$i30:$bitmap
 
-
-线程池的属性
-核心线程数：保持存在的线程数量，这些线程会一直存在，不会被删除
-任务缓冲队列：当所有的核心线程都在运行时，新的任务会被加入到缓冲队列中
-非核心线程数：当任务缓冲队列满后，将会创建新的线程来执行队列中的任务，且额外创建的线程数不会超过非核心线程数
-
+            警告，请千万不要在 Windows 下的命令行中运行此命令，或者以其他等价的方式访问
+          
+当你试图进入、访问此目录时，就有机会导致 NTFS 驱动器索引损坏，此问题
         </a>
       </p>
 
@@ -199,8 +195,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-25 23:46" pubdate>
-              2021-02-25
+            <time datetime="2021-01-18 12:25" pubdate>
+              2021-01-18
             </time>
           </div>
         
@@ -209,7 +205,13 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">面试准备</a>
+              <a href="/tags/%E7%9F%AD%E7%AC%94%E8%AE%B0/">短笔记</a>
+            
+              <a href="/tags/Windows/">Windows</a>
+            
+              <a href="/tags/NTFS/">NTFS</a>
+            
+              <a href="/tags/BUG/">BUG</a>
             
           </div>
         
@@ -223,26 +225,37 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/02/24/interview/git/">面试复习（Git）</a>
+        <a href="/2021/01/07/notebook/Compilation-principle/">编译原理</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/02/24/interview/git/">
+        <a href="/2021/01/07/notebook/Compilation-principle/">
           
           
             
           
-          版本回退
-revert
-重做某个版本，在当前版本后，重新将某个版本的操作重做一次，得到一个新的版本，将会保留所有其他版本的操作
+          引言
+编译：将高级语言翻译成汇编语言或机器语言的过程
 
+编译过程的五个阶段
+词法分析
+语法分析
+词义分析与中间代码生成
+优化
+目标代码生成
 
-reset
-返回到某个版本，所有在这个版本之后的版本都会被撤销
+编译过程的八个部分
+词法分析程序
+语法分析程序
+语义分析程序
+中间代码生成
+代码优化程序
+目标代码生成程序
+错误检查和处理程序
+信息表管理程序
 
-
-
-
+文法和语言基本概念字母表字母表 $\sum$ 是一个有穷的符号集合，符号包括了字母、数字、标点符号……
+字母表上
         </a>
       </p>
 
@@ -250,8 +263,8 @@ reset
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-24 14:24" pubdate>
-              2021-02-24
+            <time datetime="2021-01-07 14:18" pubdate>
+              2021-01-07
             </time>
           </div>
         
@@ -260,7 +273,11 @@ reset
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">面试准备</a>
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a>
+            
+              <a href="/tags/%E8%AF%BE%E7%A8%8B/">课程</a>
+            
+              <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a>
             
           </div>
         
@@ -274,35 +291,27 @@ reset
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/02/23/interview/linux/">面试复习（Linux）</a>
+        <a href="/2021/01/07/notebook/Computer-network/">计算机网络复习</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/02/23/interview/linux/">
+        <a href="/2021/01/07/notebook/Computer-network/">
           
           
             
           
-          查看进程占用系统资源情况
-top
-ps
-
-终端
-session
-一个终端窗口对应一个会话(session)
-一个会话包含多个进程组
-一个会话只有一个前台进程组，可以有多个后台进程组
-所有在终端内的输入都会发送给前台进程组
-当会话关闭时，所有会话内的进程将会被终止
+          概述计算机网络
+21世纪的重要特征是：数字化、网络化、信息化，以网络为核心的信息时代
+三类网络：电信网络、有线电视网络、计算机网络
+互联网的特点：连通性和共享
+连通性：互联网使得上网用户之间，不管相距多远，都可以非常便捷、非常经济地交换信息
+共享：信息共享、软件共享、硬件共享
 
 
 
-fork
-进程的 fork 过程
-给新进程分配一个标识符
-在内核中分配一个PCB
-复制它的父进程的环境（PCB中大部分的内容）
-为
+互联网
+计算机网络由若干结点(node)和连接这些结点的链路(link)组成
+internet 是一个通用名词，它泛
         </a>
       </p>
 
@@ -310,8 +319,8 @@ fork
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-23 23:37" pubdate>
-              2021-02-23
+            <time datetime="2021-01-07 11:45" pubdate>
+              2021-01-07
             </time>
           </div>
         
@@ -320,7 +329,11 @@ fork
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">面试准备</a>
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a>
+            
+              <a href="/tags/%E8%AF%BE%E7%A8%8B/">课程</a>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -334,31 +347,19 @@ fork
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/02/23/interview/database/">面试复习（数据库）</a>
+        <a href="/2021/01/02/develop-note/mysql-reset/">记一次 Navicat 连接 MySQL 一直报认证错误(Access denied)</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/02/23/interview/database/">
+        <a href="/2021/01/02/develop-note/mysql-reset/">
           
           
             
           
-          B 树和 B+ 树
-B 树的特点
-一个节点上包含至多 $m - 1$ 个值
-根节点至少有两个孩子
-非叶子节点如果包含了 $k$ 个值，则其包含了 $k + 1$ 个孩子节点
-所有叶子节点都位于同一层
-
-
-B+ 树的特点
-所有的非叶子节点不再保存值，而是只保存了中间值
-所有值保存在叶子节点上
-所有的叶子节点通过链表按照顺序进行连接
-
-
-为什么数据库会采用 B+ 树而不是 B 树或者 AVL 树
-AV
+          今天一时兴起，想在 WSL2 里下个 MySQL。方法也很简单，直接 sudo apt install mysql-server本来以为顺风顺水，结果却在 Navicat 连接 MySQL 的操作上出事了
+问题Navicat 无法连接上 MySQL
+配置情况Navicat Premium 15.0.19MySQL 8.0.22WSL2(Ubuntu 20)
+现状终端可以通过sudo mysql连上
         </a>
       </p>
 
@@ -366,8 +367,8 @@ AV
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-23 17:09" pubdate>
-              2021-02-23
+            <time datetime="2021-01-02 00:38" pubdate>
+              2021-01-02
             </time>
           </div>
         
@@ -376,7 +377,9 @@ AV
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">面试准备</a>
+              <a href="/tags/MySQL/">MySQL</a>
+            
+              <a href="/tags/%E7%9F%AD%E7%AC%94%E8%AE%B0/">短笔记</a>
             
           </div>
         
@@ -390,56 +393,20 @@ AV
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/02/23/interview/computer-network/">面试复习（计算机网络）</a>
+        <a href="/2020/12/26/notebook/Computer-network-experiment/">计算机网络实验复习</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/02/23/interview/computer-network/">
+        <a href="/2020/12/26/notebook/Computer-network-experiment/">
           
           
             
           
-          OSI 模型
-哪七层
-应用层：协议与端口
-表示层
-会话层
-传输层：TCP、UDP
-网络层：IP、ARP
-数据链路层：mac地址
-物理层：物理字节流传输
-
-
-
-ARP 协议
-ARP 协议的作用
-将 IP 地址转为下一跳的 mac 地址
-
-
-
-TCP 三次握手
-
-
-
-序号
-数据发送内容
-发送方向
-客户端状态
-服务器状态
-
-
-
-
-0
-
-
-CLOSED
-LISTEN
-
-
-1
-SYN=1 seq=x
-客户端
+          传输介质颜色A类线(T568A)颜色：白绿/绿/白橙/蓝/白蓝/橙/白棕/棕B类线(T568B)颜色：白橙/橙/白绿/蓝/白蓝/绿/白棕/棕
+线分为两种线：直连线和交叉线
+直连线：线的两端使用的是相同类的线，即同时使用A类或者B类交叉线：线的两端使用的是不同的线，一段为A类，一段为B类
+为什么有两种不同的线输入口和输出口的区别
+如果使用的是直连线，则一段的输入端和另一端输入端的位置相同而使用的是交
         </a>
       </p>
 
@@ -447,8 +414,8 @@ SYN=1 seq=x
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-23 14:29" pubdate>
-              2021-02-23
+            <time datetime="2020-12-26 10:23" pubdate>
+              2020-12-26
             </time>
           </div>
         
@@ -457,7 +424,11 @@ SYN=1 seq=x
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">面试准备</a>
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a>
+            
+              <a href="/tags/%E8%AF%BE%E7%A8%8B/">课程</a>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -471,162 +442,17 @@ SYN=1 seq=x
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/02/23/interview/operating-system/">面试复习（操作系统）</a>
+        <a href="/2020/12/24/develop-note/wsl-docker/">WSL1 使用 Docker 一直无法启动</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/02/23/interview/operating-system/">
+        <a href="/2020/12/24/develop-note/wsl-docker/">
           
           
             
           
-          用户态和内核态
-什么时候从用户态转为内核态
-程序在用户态执行时，当需要进行系统调用的时候，或者遇到异常，或者外围设备引发的中断，如文件读取与写入，程序报错，键盘输入，网络操作等行为时，程序会从用户态转为内核态，直到执行此行为结束时，再返回用户态
-
-
-为什么要转至内核态
-通过限制用户态的权利，使得有限的系统资源能够受到系统的控制与管理，由系统进行资源的分配
-
-
-用户态和内核态的切换原理
-实质上就是中
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-23 00:45" pubdate>
-              2021-02-23
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">面试准备</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/22/interview/cpp/">面试复习（C++）</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/02/22/interview/cpp/">
-          
-          
-            
-          
-          堆和栈的区别
-操作系统角度
-堆是操作系统为进程所分配的空间，在 C、C++ 语言中用来存放全局变量。由程序员管理，主动申请以及释放的空间，可能会出现内存泄漏。在进程结束后，由操作系统回收
-栈是由编译器进行管理，由编译器进行申请，释放的空间，通常比堆要小很多，在 C、C++ 语言中，当调用一个函数时会创建一个栈，当函数结束时则会回收栈的空间
-
-
-数据结构的角度
-堆是一棵完全二叉树，常见的有最大堆和最
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-22 14:23" pubdate>
-              2021-02-22
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">面试准备</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/06/acm/CodeforcesRound699(Div.%202)/">Codeforces Round#699 (Div. 2)</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/02/06/acm/CodeforcesRound699(Div.%202)/">
-          
-          
-            
-          
-          暂时还没有 AK，留坑
-A. Space Navigation大致题意给你一段在棋盘上的移动指令，问能否通过在不改变原指令顺序，仅删除部分或者全部或者不删除的情况下，到达某个指定地点
-分析可以通过指令直接得出可以到达的范围，比如删除所有的“向左”指令后，能够到达的最右，同理可以得到四个方向的极值，最后判断目标地点是否在极值范围内即可
-AC code1234567891011121314151617
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-06 14:52" pubdate>
-              2021-02-06
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ACM/">ACM</a>
-            
-              <a href="/tags/Codeforces/">Codeforces</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/01/27/develop-note/wsl-clean/">清理 WSL2 的磁盘占用</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/01/27/develop-note/wsl-clean/">
-          
-          
-            
-          
-          方法来源：https://github.com/microsoft/WSL/issues/4699#issuecomment-627133168
-由于 vhdx 格式的磁盘镜像文件只支持自动扩容但不支持自动缩容，所以需要手动来实现缩容，即利用 Windows 自带的 diskpart 来实现
+          问题WSL1 无法正常启动 Dokcer，Dokcer一直处于 not running 状态
+解决办法WSL1 是伪 Linux，实际上仍然是 Windows 底层，而 Docker 是基于系统底层实现的，这就导致了无法在 Windows(WSL1) 上运行 Linux 版本的 Dokcer使用 WSL2 则可以正常使用 Docker，目前上述问题在不使用 WSL2 的情况下，暂时无法解决
 
         </a>
       </p>
@@ -635,8 +461,8 @@ AC code1234567891011121314151617
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-27 14:58" pubdate>
-              2021-01-27
+            <time datetime="2020-12-24 15:55" pubdate>
+              2020-12-24
             </time>
           </div>
         
@@ -649,6 +475,8 @@ AC code1234567891011121314151617
             
               <a href="/tags/WSL/">WSL</a>
             
+              <a href="/tags/Dokcer/">Dokcer</a>
+            
           </div>
         
       </div>
@@ -661,18 +489,27 @@ AC code1234567891011121314151617
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/01/26/acm/CodeforcesRound697(Div.%203)/">Codeforces Round#697 (Div. 3)</a>
+        <a href="/2020/12/21/acm/myACM/">我的ACM脚印</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/01/26/acm/CodeforcesRound697(Div.%203)/">
+        <a href="/2020/12/21/acm/myACM/">
           
           
             
           
-          自南京区域赛结束之后就一直在准备期末考试，直到最近结束考试之后开始了复建的生活，这场 Div3 除了 D 题因为爆了 int 然后卡了，G题真的没在比赛期间想出来，其他题目都是非常顺利的解决掉了，且只用了一个小时
-A. Odd Divisor题目大意给你一个整数，请问它是否存在一个不为 1 的奇因子
-题解因为除 1 以外的所有奇因子都可以分解出至少一个奇质因子，那么只需要找到那些不包含奇质因子的数
+          2020年12月20日，南京区域赛结束，同时结束的，还有我的两年多的ACM生涯接下来的寒假重心会向着找实习的方向努力，当然明年还有线下的区域赛、EC-finial以及明年的省赛等等，我都会去认真准备。
+这篇文章会写什么
+关于我
+我的ACM简单的回顾
+我的ACM成绩
+
+
+写给新人
+ACM到底和数学建模、挑战杯等等的其他竞赛有什么区别
+ACM到底带给我什么了
+为什么要打ACM
+什么样的人适合去打ACM
         </a>
       </p>
 
@@ -680,8 +517,8 @@ A. Odd Divisor题目大意给你一个整数，请问它是否存在一个不为
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-26 02:19" pubdate>
-              2021-01-26
+            <time datetime="2020-12-21 01:31" pubdate>
+              2020-12-21
             </time>
           </div>
         
@@ -692,7 +529,7 @@ A. Odd Divisor题目大意给你一个整数，请问它是否存在一个不为
             
               <a href="/tags/ACM/">ACM</a>
             
-              <a href="/tags/Codeforces/">Codeforces</a>
+              <a href="/tags/%E6%80%BB%E7%BB%93/">总结</a>
             
           </div>
         
@@ -704,7 +541,7 @@ A. Odd Divisor题目大意给你一个整数，请问它是否存在一个不为
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
     </span>
   </nav>
   
