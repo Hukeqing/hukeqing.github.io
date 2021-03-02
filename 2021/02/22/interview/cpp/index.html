@@ -174,7 +174,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.2k 字
+      3.3k 字
     </span>
   
 
@@ -184,7 +184,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      33
+      34
        分钟
     </span>
   
@@ -282,6 +282,11 @@
 <li>MSVC下的 1.5 倍的空间相对于 GCC 下的 2 倍有什么好处和坏处<ul>
 <li>好处：因为 2 倍空间下，任意一个空间都大于之前所有分配过的空间之和，这就意味着每次进行扩容的时候都需要分配一个新的空间。而在 1.5 倍下，可以重复使用之前的空间，1.5 倍相对会节约内存</li>
 <li>坏处： 1.5 倍下的重新分配次数更多，也就意味着需要更多的重新分配空间和重新移动的次数，更加浪费时间</li>
+</ul>
+</li>
+<li>clear 的复杂度<ul>
+<li>复杂度与已有的元素数量成线性，因为每个元素都需要析构</li>
+<li>clear 后，并不会改变 vector 的容量上限，只会更新 vector 内的 size 大小</li>
 </ul>
 </li>
 </ul>
@@ -543,7 +548,7 @@
       window.UtterancesThemeDark = dark;
       var s = document.createElement('script');
       s.setAttribute('src', 'https://utteranc.es/client.js');
-      s.setAttribute('repo', 'https://github.com/Hukeqing/Hukeqing.github.io');
+      s.setAttribute('repo', 'Hukeqing/Hukeqing.github.io');
       s.setAttribute('issue-term', 'pathname');
       
       s.setAttribute('label', 'utterances');
