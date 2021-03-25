@@ -174,7 +174,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.3k 字
+      3.9k 字
     </span>
   
 
@@ -184,7 +184,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      34
+      40
        分钟
     </span>
   
@@ -217,7 +217,48 @@
             <h1 style="display: none">面试复习（C++）</h1>
             
             <div class="markdown-body">
-              <h1 id="堆和栈的区别"><a href="#堆和栈的区别" class="headerlink" title="堆和栈的区别"></a>堆和栈的区别</h1><ul>
+              <h1 id="C-的特性与轨迹"><a href="#C-的特性与轨迹" class="headerlink" title="C++的特性与轨迹"></a>C++的特性与轨迹</h1><ul>
+<li>C++ 的特性（C++11及以上）<ul>
+<li>需要在不同的平台上进行编译</li>
+<li>编译后的程序可以在操作系统上直接运行</li>
+<li>可以面对过程和面对对象两种设计方式</li>
+<li>可以直接操作本地的系统库</li>
+<li>可以直接使用操作系统提供的接口</li>
+<li>编译后仅对变量的类型进行了存储，不可以进行类似反射的操作</li>
+<li>支持无符号整型</li>
+<li>变量类型的字节长度受操作系统影响</li>
+<li>支持指针、引用、值传递</li>
+<li>没有默认提供的 GC 系统</li>
+<li>由程序员负责管理变量所储存的位置</li>
+<li>严格的 RAII</li>
+<li>支持重写、重载，包括运算符的重载</li>
+<li>多重继承</li>
+<li>支持预编译，编译宏定义</li>
+<li>支持函数指针，函数对象，lambda 表达式</li>
+</ul>
+</li>
+<li>C++ 11 新增的特性<ul>
+<li><code>foreach</code></li>
+<li><code>auto</code> 自动类型推断</li>
+<li><code>lambda</code> 匿名函数</li>
+<li>后置返回类型</li>
+<li><code>override</code> 关键字</li>
+<li><code>nullptr</code> 代替原来的 NULL<ul>
+<li>当存在 <code>void a(int x);</code> 和 <code>void a(char *x)</code> 时，若使用 <code>a(NULL)</code> 则会调用前者，这与通常的理解不同，而使用 <code>a(nullptr)</code> 则会明确的调用后者</li>
+</ul>
+</li>
+<li>元组 tuple，可以使用 <code>get&lt;&gt;()</code> 取出其中的一个值，或者使用 <code>tie()</code> 装包或解包</li>
+</ul>
+</li>
+</ul>
+<h1 id="struct-和-class"><a href="#struct-和-class" class="headerlink" title="struct 和 class"></a>struct 和 class</h1><ul>
+<li>区别<ul>
+<li>struct 默认使用 public 而 class 默认使用 private</li>
+<li>struct 可以直接使用 <code>&#123;&#125;</code> 进行初始化，而 class 则需要所有成员变量都是 public 的时候才可以使用</li>
+</ul>
+</li>
+</ul>
+<h1 id="堆和栈的区别"><a href="#堆和栈的区别" class="headerlink" title="堆和栈的区别"></a>堆和栈的区别</h1><ul>
 <li>操作系统角度<ul>
 <li>堆是操作系统为进程所分配的空间，在 C、C++ 语言中用来存放全局变量。由程序员管理，主动申请以及释放的空间，可能会出现内存泄漏。在进程结束后，由操作系统回收</li>
 <li>栈是由编译器进行管理，由编译器进行申请，释放的空间，通常比堆要小很多，在 C、C++ 语言中，当调用一个函数时会创建一个栈，当函数结束时则会回收栈的空间</li>
@@ -409,6 +450,12 @@
 </li>
 </ul>
 <h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><ul>
+<li>构造函数有哪些特征<ul>
+<li>名字和类名相同</li>
+<li>没有返回值</li>
+<li>生成类的自动执行，不需要调用</li>
+</ul>
+</li>
 <li>为什么构造函数不可以是虚函数<ul>
 <li>因为虚函数表指针是在构造函数期间创建的，没有虚函数表就没有办法调用虚函数</li>
 </ul>
@@ -482,6 +529,25 @@
 <li>C++ 内存泄漏检查<ul>
 <li>通过 valgrind 检查一个调试程序</li>
 <li>valgrind 可以检查出内存泄漏、越界访问、未初始化内存</li>
+</ul>
+</li>
+</ul>
+<h1 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h1><ul>
+<li>静态方法和实例方法有何不同<ul>
+<li>调用时，静态方法既可以用 <code>类名.方法名</code> 和 <code>对象名.方法名</code>，而实例方法只能用后者</li>
+<li>静态方法只能访问静态变量，而实例方法可以访问静态变量和成员变量</li>
+</ul>
+</li>
+</ul>
+<h1 id="右值引用"><a href="#右值引用" class="headerlink" title="右值引用"></a>右值引用</h1><ul>
+<li>如何确定一个值是左值还是右值<ul>
+<li>提供了地址的为左值，左值可以没有值，但是一定有地址</li>
+<li>提供了值的为右值，右值可以没有地址，但是一定有值</li>
+</ul>
+</li>
+<li>右值引用的功能<ul>
+<li>移动语句</li>
+<li>完美转发</li>
 </ul>
 </li>
 </ul>
