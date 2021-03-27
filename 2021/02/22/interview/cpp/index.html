@@ -174,7 +174,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.9k 字
+      3.7k 字
     </span>
   
 
@@ -292,22 +292,6 @@
 <h1 id="静态函数和虚函数"><a href="#静态函数和虚函数" class="headerlink" title="静态函数和虚函数"></a>静态函数和虚函数</h1><ul>
 <li>静态函数和虚函数的区别<ul>
 <li>静态函数在编译时就确定了运行的时机，而虚函数则是在运行的过程中动态的得知虚函数地址</li>
-</ul>
-</li>
-</ul>
-<h1 id="链表有环问题"><a href="#链表有环问题" class="headerlink" title="链表有环问题"></a>链表有环问题</h1><ul>
-<li>判断单向链表是否有环<ul>
-<li>定义两个指针，从链表的开始，同时沿着链表指针移动，速度分别为一个单位和两个单位。当某个时刻，两个指针指向同一个节点的时候则此链表有环</li>
-<li>理论上，速度可以是任意的两个不同的值，因为只要速度差和环的长度有最小公倍数，则必定存在相交的时间点</li>
-</ul>
-</li>
-<li>找出链表的环的交点位置<ul>
-<li>通过上述步骤（速度取一步两步），当两个指针第一次相遇的时候，将速度为二步的指针移动至开头，并将速度调整为一步，然后两个指针继续前进，直到第一次相遇，此相遇点即为链表的环的交点</li>
-<li>原理：把整个链表认为长度就是两步的那个指针所走过的路程，把重复的那部分复制一份，将链表展开为无环。此时可以认为整个链表长度为 $2n$，且一步的那个指针恰好位于整个链表最中间的地方，即 $n$，同时，在展开之前，这两个节点是“相同的节点”，此时如果再有一个指针以一步的速度从开头开始走，那么当这两个指针分别走到链表的正中间和最后的时候，此时这两个指针实际上相同了，而这两个指针速度相同，所以在之前应该也有一段时间已经相同了。反过来，当他们第一次重合的时候，即为环的入口</li>
-</ul>
-</li>
-<li>判断两个链表是否最终交在同一个节点<ul>
-<li>利用上述的规则，将其中一个链表的头尾相连，然后从另一个链表开头进行一步两步的判断</li>
 </ul>
 </li>
 </ul>
@@ -548,6 +532,13 @@
 <li>右值引用的功能<ul>
 <li>移动语句</li>
 <li>完美转发</li>
+</ul>
+</li>
+</ul>
+<h1 id="C-hash"><a href="#C-hash" class="headerlink" title="C++ hash"></a>C++ hash</h1><ul>
+<li>C++ 的内置 <code>hash</code> 函数的实现<ul>
+<li>对于基础变量，<code>hash</code> 函数返回值为此变量的值，不做修改</li>
+<li>对于 <code>string</code>，<code>hash</code> 函数对每四个字节(64位操作系统下)进行位运算最终得到结果，实际的内部过程使用了两个特殊的固定值，下面是 C++ 的字符串 <code>hash</code> 函数的实际内部实现（C++11）<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> <span class="hljs-title">unaligned_load</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *p)</span> </span>&#123;<br>    <span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span> result;<br>    __builtin_memcpy(&amp;result, p, <span class="hljs-keyword">sizeof</span>(result));<br>    <span class="hljs-keyword">return</span> result;<br>&#125;<br><br><span class="hljs-keyword">size_t</span> _Hash_bytes(<span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *ptr, <span class="hljs-keyword">size_t</span> len, <span class="hljs-keyword">size_t</span> seed = <span class="hljs-number">0xc70f6907</span>UL) &#123;<br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">size_t</span> m = <span class="hljs-number">0x5bd1e995</span>;<br>    <span class="hljs-keyword">size_t</span> hash = seed ^len;<br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *buf = <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *&gt;(ptr);<br><br>    <span class="hljs-comment">// Mix 4 bytes at a time into the hash.</span><br>    <span class="hljs-keyword">while</span> (len &gt;= <span class="hljs-number">4</span>) &#123;<br>        <span class="hljs-keyword">size_t</span> k = unaligned_load(buf);<br>        k *= m;<br>        k ^= k &gt;&gt; <span class="hljs-number">24</span>;<br>        k *= m;<br>        hash *= m;<br>        hash ^= k;<br>        buf += <span class="hljs-number">4</span>;<br>        len -= <span class="hljs-number">4</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// Handle the last few bytes of the input array.</span><br>    <span class="hljs-keyword">switch</span> (len) &#123;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:<br>            hash ^= <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span>&gt;(buf[<span class="hljs-number">2</span>]) &lt;&lt; <span class="hljs-number">16</span>;<br>            [[gnu::fallthrough]];<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>            hash ^= <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span>&gt;(buf[<span class="hljs-number">1</span>]) &lt;&lt; <span class="hljs-number">8</span>;<br>            [[gnu::fallthrough]];<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>            hash ^= <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span>&gt;(buf[<span class="hljs-number">0</span>]);<br>            hash *= m;<br>    &#125;;<br><br>    <span class="hljs-comment">// Do a few final mixes of the hash.</span><br>    hash ^= hash &gt;&gt; <span class="hljs-number">13</span>;<br>    hash *= m;<br>    hash ^= hash &gt;&gt; <span class="hljs-number">15</span>;<br>    <span class="hljs-keyword">return</span> hash;<br>&#125;<br></code></pre></td></tr></table></figure></li>
 </ul>
 </li>
 </ul>
