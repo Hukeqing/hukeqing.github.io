@@ -861,7 +861,7 @@ B \rightarrow .0 \\
 B \rightarrow .1
 \end{cases}</script><h4 id="其他-State"><a href="#其他-State" class="headerlink" title="其他 State"></a>其他 State</h4><p>不断重复上述步骤，得到下面的图和结果</p>
 <script type="math/tex; mode=display">
-State 0 = 
+State 0 =
 \begin{cases}
 S' \rightarrow .S \\
 S \rightarrow .L*L \\
@@ -934,7 +934,7 @@ B[State 1] --&gt; Accept([Accept])
 </code></pre>
 <p><em>Accept通常状态不需要画出</em></p>
 <h3 id="创建LR分析表"><a href="#创建LR分析表" class="headerlink" title="创建LR分析表"></a>创建LR分析表</h3><p>由此图和上面的集合可以画出表格</p>
-<table border="0" cellpadding="0" cellspacing="0" width="576" style="border-collapse: 
+<table border="0" cellpadding="0" cellspacing="0" width="576" style="border-collapse:
  collapse;table-layout:fixed;width:432pt">
     <colgroup>
         <col class="x22" width="72" span="8" style="mso-width-source:userset;width:54pt">
@@ -1082,7 +1082,7 @@ B_2 \rightarrow \gamma_2 . \\
 <script type="math/tex; mode=display">
 \begin{cases}
 \forall FOLLOW(B_i) \cap \{a_1, a_2 \dots \}  = \varnothing \\
-\forall FOLLOW(B_i) \cap \forall FOLLOW(B_j) = \varnothing 
+\forall FOLLOW(B_i) \cap \forall FOLLOW(B_j) = \varnothing
 \end{cases}</script><p>若满足上述条件，则对于 <code>ACTION</code> 列中的每一项 $a$<br>若 $a \in {a_1, a_2 \dots }$，则采用 <code>sn</code> 的标识方式，即<br>若 $a \in FOLLOW(B_i)$，则在所在列标注上 <code>rn</code>，其中 <code>n</code> 指代第几号产生式，这条产生式为 $B_i \rightarrow \gamma_i$</p>
 </blockquote>
 </li>
@@ -1316,8 +1316,7 @@ L \rightarrow \{ L_1.type = L.type \} L_1, id
 <li><code>(j, , , 9)</code></li>
 <li><code>(-, x, 1, t2)</code></li>
 <li><code>(*, 4, t2, t3)</code></li>
-<li><code>(=, t3, , x)</code></li>
-<li></li>
+<li><code>(=, t3, , x)</code><br>9.</li>
 </ol>
 <h1 id="运行存储分配"><a href="#运行存储分配" class="headerlink" title="运行存储分配"></a>运行存储分配</h1><ul>
 <li>对于那些在编译时刻就可以确定大小的数据对象，可以在编译时刻就为它们分配存储空间，这样的分配策略称为<font color=red>静态存储分配</font></li>
